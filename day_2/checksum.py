@@ -1,3 +1,4 @@
+from itertools import permutations
 
 
 def main():
@@ -5,6 +6,7 @@ def main():
         raw_input = f.readlines()
     # input_data = [data.split("\t") for data in raw_input]
     part_one(raw_input)
+    part_two(raw_input)
 
 
 def part_one(input_data: list[str]) -> None:
@@ -22,6 +24,28 @@ def part_one(input_data: list[str]) -> None:
         checksum += max(numbs) - min(numbs)
 
     print(f"part 1: {checksum}")    # 30994
+
+
+def part_two(data: list[str]):
+    """
+    the goal is to find the only two numbers in each row where one evenly divides the other - that is, where the result
+    of the division operation is a whole number. They would like you to find those numbers on each line, divide them,
+    and add up each line's result.
+    :param data:
+    :return:
+    """
+    checksum = 0
+
+    for line in data:
+        numbs: list[int] = [int(numb) for numb in line.split("\t")]
+
+        perms = list(permutations(numbs, 2))
+        for perm in perms:
+            if perm[0] % perm[1] == 0:
+                checksum += (perm[0]//perm[1])
+                break
+
+    print(f"part 2: {checksum}")  # high 38082, 26023; 233
 
 
 if __name__ == "__main__":
